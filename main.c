@@ -9,6 +9,10 @@
 #define OUTPUT_FILENAME "hashtable.txt"
 #define HASHTABLE_SIZE 64
 
+#define MY_NAME "GavYur"
+#define GREET(program, version) printf("#--- " program " v" version " (%s %s) by " MY_NAME "\n\n", __DATE__, __TIME__)
+
+
 int read_file(const char* filename, char** buf_addr, int* len);
 int make_hashtable(char* buffer);
 unsigned int compute_hash(const char* str);
@@ -16,7 +20,7 @@ int string_compare(const String_t* str1, const String_t* str2);
 
 int main()
 {
-    printf("Hello world!\n");
+    GREET("Hashtable", "0.1");
 
     char* buffer = 0;
     int buffer_len = 0;
@@ -80,7 +84,19 @@ int make_hashtable(char* buffer)
     if (!stream)
         return 1;
     write_hashtable(hashtable, stream);
+    printf("Hashtable was written to %s!\n", OUTPUT_FILENAME);
+
     fclose(stream);
+    for (int i = 0; i < HASHTABLE_SIZE; ++i)
+    {
+        ListElem_t* element = hashtable[i]->first;
+        while (element != NULL)
+        {
+            String_dtor(element->content);
+            element = element->next;
+        }
+        list_dtor(hashtable[i]);
+    }
 
     return 0;
 }
