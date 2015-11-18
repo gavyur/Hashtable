@@ -24,10 +24,13 @@ List_t* list_ctor();
 int list_dtor(List_t* This);
 int list_ok(List_t* This);
 int list_dump(List_t* This, const char* name);
-int list_insert_after(List_t* This, ListElem_t* elem, ListElem_t* after);
-int list_insert_before(List_t* This, ListElem_t* elem, ListElem_t* before);
-int list_append(List_t* This, ListElem_t* elem);
-int list_remove(List_t* This, ListElem_t* elem);
+int list_insert_elem_after(List_t* This, ListElem_t* elem, ListElem_t* after);
+int list_insert_after(List_t* This, LIST_TYPE value, ListElem_t* after);
+int list_insert_elem_before(List_t* This, ListElem_t* elem, ListElem_t* before);
+int list_insert_before(List_t* This, LIST_TYPE value, ListElem_t* before);
+int list_append_elem(List_t* This, ListElem_t* elem);
+int list_append(List_t* This, LIST_TYPE value);
+int list_remove_elem(List_t* This, ListElem_t* elem);
 ListElem_t* list_search(List_t* This, LIST_TYPE what, int (*compare)(const LIST_TYPE first, const LIST_TYPE second));
 
 ListElem_t* listelem_ctor(LIST_TYPE content);

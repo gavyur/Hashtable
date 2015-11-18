@@ -69,7 +69,7 @@ int list_dump(List_t* This, const char* name)
     return 0;
 }
 
-int list_insert_after(List_t* This, ListElem_t* elem, ListElem_t* after)
+int list_insert_elem_after(List_t* This, ListElem_t* elem, ListElem_t* after)
 {
     ASSERT_OK(list, This);
     ASSERT_OK(listelem, elem);
@@ -95,7 +95,12 @@ int list_insert_after(List_t* This, ListElem_t* elem, ListElem_t* after)
     return 0;
 }
 
-int list_insert_before(List_t* This, ListElem_t* elem, ListElem_t* before)
+int list_insert_after(List_t* This, LIST_TYPE value, ListElem_t* after)
+{
+    return list_insert_elem_after(This, listelem_ctor(value), after);
+}
+
+int list_insert_elem_before(List_t* This, ListElem_t* elem, ListElem_t* before)
 {
     ASSERT_OK(list, This);
     ASSERT_OK(listelem, elem);
@@ -121,13 +126,23 @@ int list_insert_before(List_t* This, ListElem_t* elem, ListElem_t* before)
     return 0;
 }
 
-int list_append(List_t* This, ListElem_t* elem)
+int list_insert_before(List_t* This, LIST_TYPE value, ListElem_t* before)
 {
-    ASSERT_OK(list, This);
-    return list_insert_after(This, elem, This->last);
+    return list_insert_elem_before(This, listelem_ctor(value), before);
 }
 
-int list_remove(List_t* This, ListElem_t* elem)
+int list_append_elem(List_t* This, ListElem_t* elem)
+{
+    ASSERT_OK(list, This);
+    return list_insert_elem_after(This, elem, This->last);
+}
+
+int list_append(List_t* This, LIST_TYPE value)
+{
+    return list_append_elem(This, listelem_ctor(value));
+}
+
+int list_remove_elem(List_t* This, ListElem_t* elem)
 {
     ASSERT_OK(list, This);
     ASSERT_OK(listelem, elem);

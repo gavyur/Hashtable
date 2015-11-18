@@ -7,7 +7,7 @@
 
 #define INPUT_FILENAME "onegin.txt"
 #define OUTPUT_FILENAME "hashtable.txt"
-#define HASHTABLE_SIZE 64
+#define HASHTABLE_SIZE 65
 
 #define MY_NAME "GavYur"
 #define GREET(program, version) printf("#--- " program " v" version " (%s %s) by " MY_NAME "\n\n", __DATE__, __TIME__)
@@ -77,7 +77,7 @@ int make_hashtable(char* buffer)
         {
             String_dtor(str);
         } else
-            list_append(hashtable[hash % HASHTABLE_SIZE], listelem_ctor(str));
+            list_append(hashtable[hash % HASHTABLE_SIZE], str);
         pch = strtok(NULL, "  !\"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~\n");
     }
     FILE* stream = fopen(OUTPUT_FILENAME, "wb");
@@ -128,10 +128,11 @@ unsigned int compute_hash(const char* str)
 {
     unsigned int hash = 0;
 
-    for(; *str; ++str)
+    while (*str)
     {
-        hash += (unsigned char)(*str);
+        hash ^= (unsigned char)(*str);
         hash += (hash >> 1) | (hash << 31);
+        ++str;
     }
 
     return hash;
